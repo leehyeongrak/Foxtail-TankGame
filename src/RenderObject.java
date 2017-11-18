@@ -1,13 +1,12 @@
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RenderObject {
 
     protected HashMap<Integer, PImage[]> renderImages;
-    protected int mode = 3;
+    protected int mode = 60;
     private PApplet p;
 
     public int x, y;
