@@ -7,6 +7,8 @@ public class Constants {
     final static int BLOCK_EMPTY = 0;
     final static int BLOCK = 1;
 
+<<<<<<< HEAD
+=======
 
     final static int DIR_LEFT = 11;
     final static int DIR_RIGHT = 12;
@@ -14,4 +16,5 @@ public class Constants {
     final static int DIR_DOWN = 14;
 
     final static String ID = "AnyTime";
+>>>>>>> 013d592b341cd4ceb4cb814b98397b3d2948721f
 }
