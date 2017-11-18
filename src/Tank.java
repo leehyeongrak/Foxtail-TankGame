@@ -3,12 +3,13 @@ import processing.core.PApplet;
 public class Tank extends RenderObject {
     final static int MOVE_LEFT = 51;
     final static int MOVE_RIGHT = 52;
-    final static int MOVE_UP = 51;
-    final static int MOVE_DOWN = 52;
-    final static int STAY_LEFT = 60;
-    final static int STAY_RIGHT = 60;
-    final static int STAY_UP = 60;
-    final static int STAY_DOWN = 60;
+    final static int MOVE_UP = 53;
+    final static int MOVE_DOWN = 54;
+    final static int STAY = 60;
+    final static int STAY_LEFT = 61;
+    final static int STAY_RIGHT = 62;
+    final static int STAY_UP = 63;
+    final static int STAY_DOWN = 64;
 
     int mode = STAY_LEFT;
 
@@ -16,8 +17,8 @@ public class Tank extends RenderObject {
 
     Tank(PApplet pApplet) {
         super(pApplet);
-        this.x = 0;
-        this.y = 0;
+        this.x = 10;
+        this.y = 10;
     }
 
     @Override
@@ -41,6 +42,14 @@ public class Tank extends RenderObject {
 
     public void setMode(int mode) {
         this.mode = mode;
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
     }
 
 }
