@@ -6,16 +6,16 @@ import java.util.HashMap;
 public class RenderObject {
 
     protected HashMap<Integer, PImage[]> renderImages;
-    protected int mode = 63;
-    private PApplet p;
+    protected int mode;
+    protected PApplet p;
 
     public int x, y;
 
 
     public RenderObject(PApplet p) {
         renderImages = new HashMap<>();
-        this.x = 42;
-        this.y = 42;
+        this.x = Constants.OBJECT_SIZE/2;
+        this.y = Constants.OBJECT_SIZE/2;
         this.p = p;
     }
 
@@ -42,35 +42,11 @@ public class RenderObject {
     }
 
     private int tick;
-    public void render(){
+    public void render() {
         tick ++;
-
-        switch (mode) {
-            case 61: p.pushMatrix();
-                p.translate(x, y);
-                p.rotate(PApplet.radians(270));
-                p.translate(-x, -y);
-                p.image(renderImages.get(mode)[tick/10 % renderImages.get(mode).length], x - 42, y - 42);
-                p.popMatrix();
-                break;
-            case 62: p.pushMatrix();
-                p.translate(x, y);
-                p.rotate(PApplet.radians(90));
-                p.translate(-x, -y);
-                p.image(renderImages.get(mode)[tick/10 % renderImages.get(mode).length], x - 42, y - 42);
-                p.popMatrix();
-                break;
-            case 63: p.image(renderImages.get(mode)[tick/10 % renderImages.get(mode).length], x - 42, y - 42);
-            break;
-            case 64: p.pushMatrix();
-                p.translate(x, y);
-                p.rotate(PApplet.radians(180));
-                p.translate(-x, -y);
-                p.image(renderImages.get(mode)[tick/10 % renderImages.get(mode).length], x - 42, y - 42);
-                p.popMatrix();
-                break;
-        }
+        p.image(renderImages.get(mode)[tick / 10 % renderImages.get(mode).length], x - Constants.OBJECT_SIZE/2, y - Constants.OBJECT_SIZE/2);
     }
+
 
 
 

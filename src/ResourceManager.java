@@ -35,6 +35,7 @@ public class ResourceManager {
         for(int i = 0 ; i < countX; i++) {
             for (int j = 0; j <countY; j++) {
                 pImages[j * countX  + i] = pImage.get(width * i, height * j, width, height);
+                pImages[j * countX + i].resize(Constants.OBJECT_SIZE, Constants.OBJECT_SIZE);
             }
         }
 

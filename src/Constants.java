@@ -7,14 +7,13 @@ public class Constants {
     final static int BLOCK_EMPTY = 0;
     final static int BLOCK = 1;
 
-<<<<<<< HEAD
-=======
 
     final static int DIR_LEFT = 11;
     final static int DIR_RIGHT = 12;
     final static int DIR_UP = 13;
     final static int DIR_DOWN = 14;
 
+    final static int OBJECT_SIZE = 40;
+
     final static String ID = "AnyTime";
->>>>>>> 013d592b341cd4ceb4cb814b98397b3d2948721f
 }
