@@ -36,6 +36,7 @@ public class Tank extends RenderObject {
             message = message + "{UP}";
             this.y += velocity;
         }
+        //os 이용해서  서버로 보내야함
     }
 
     public void setMode(int mode) {
