@@ -2,13 +2,17 @@ import processing.core.PApplet;
 import processing.event.KeyEvent;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Program2 extends PApplet {
-    private OutputStream os;
-    Tank tank;
+    private DataOutputStream dos;
+    private User tank;
+    private ArrayList<Bullet> bullets = new ArrayList<>();
+
     int[][] map = new int[Constants.MAP_COL][Constants.MAP_ROW];
     int blockWidth = Constants.WINDOW_WIDTH / Constants.MAP_ROW;
     int blockHeight = Constants.WINDOW_HEIGHT / Constants.MAP_COL;
@@ -23,13 +27,21 @@ public class Program2 extends PApplet {
     @Override
     public void settings() {
         this.size(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
-        tank = new Tank(this);
         try {
-//            Socket socket = new Socket("192.168.11.2", 3007);
-//            os = socket.getOutputStream();
-//            ReaderThread readerThread = new ReaderThread(socket.getInputStream());
-//            readerThread.setOnReceived(onReceived);
-//            readerThread.start();
+            Socket socket = new Socket("192.168.11.3", 5000);
+            OutputStream os = socket.getOutputStream();
+            DataOutputStream dos = new DataOutputStream(os);
+            String messageStr = "#set#" + Constants.ID;
+            System.out.println(messageStr);
+
+            byte[] message = messageStr.getBytes();
+            System.out.println(message.length);
+            dos.writeInt(message.length);
+            dos.write(message);
+            
+            ReaderThread readerThread = new ReaderThread(socket.getInputStream());
+            readerThread.setOnReceived(onReceived);
+            readerThread.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,15 +49,36 @@ public class Program2 extends PApplet {
 
     @Override
     public void setup() {
+        tank = new User(this);
         makeMap();
-
     }
 
     @Override
     public void draw() {
+        this.background(0, 0, 0);
         drawMap();
+
+        tank.update();
         drawTank();
 
+        ArrayList<Bullet> bulletsTemp = bullets;
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet b = bulletsTemp.get(i);
+            b.update();
+            if (b.x < 0 || b.x > Constants.WINDOW_WIDTH || b.y < 0 || b.y > Constants.WINDOW_HEIGHT) {
+                bullets.remove(b);
+            }
+        }
+
+        drawBullets();
+    }
+
+    private void drawBullets() {
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet b = bullets.get(i);
+            this.fill(10, 10, 200);
+            this.ellipse(b.x, b.y, 20, 20);
+        }
     }
 
     private void drawMap() {
@@ -65,7 +98,7 @@ public class Program2 extends PApplet {
 
     private void drawTank() {
         this.fill(200, 20, 20);
-        this.ellipse(tank.x, tank.y, 10, 10);
+        this.rect(tank.x, tank.y, 40, 40);
     }
 
     private void makeMap() {
@@ -90,23 +123,26 @@ public class Program2 extends PApplet {
 
     @Override
     public void keyPressed(KeyEvent event) {
+        System.out.println("Key Pressed : "+ keyCode);
         switch (keyCode) {
             case 37:
-                System.out.println("L");
-                tank.setMode(tank.MOVE_LEFT);
+                tank.setMode(User.MOVE_LEFT);
+                tank.dir = Constants.DIR_LEFT;
                 break;
             case 38:
-                System.out.println("U");
-                tank.setMode(tank.MOVE_UP);
+                tank.setMode(User.MOVE_UP);
+                tank.dir = Constants.DIR_UP;
                 break;
             case 39:
-                System.out.println("R");
-                tank.setMode(tank.MOVE_RIGHT);
+                tank.setMode(User.MOVE_RIGHT);
+                tank.dir = Constants.DIR_RIGHT;
                 break;
             case 40:
-                System.out.println("D");
-                tank.setMode(tank.MOVE_DOWN);
+                tank.setMode(User.MOVE_DOWN);
+                tank.dir = Constants.DIR_DOWN;
                 break;
+            case 32:
+                bullets.add(new Bullet(this, tank.x + 20, tank.y + 20, tank.dir));
             case 82:
                 settings();
         }
@@ -119,7 +155,7 @@ public class Program2 extends PApplet {
             case 38:
             case 39:
             case 40:
-                tank.setMode(tank.STAY);
+                tank.setMode(User.STAY);
                 break;
         }
     }
