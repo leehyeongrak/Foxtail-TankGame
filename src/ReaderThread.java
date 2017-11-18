@@ -1,3 +1,5 @@
+import javax.xml.crypto.Data;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -6,7 +8,7 @@ interface OnReceived {
 }
 
 class ReaderThread extends Thread {
-    private InputStream is;
+    private DataInputStream dis;
     private OnReceived onReceived;
 
     void setOnReceived(OnReceived onReceived) {
@@ -15,7 +17,7 @@ class ReaderThread extends Thread {
 
 
     public ReaderThread(InputStream is) {
-        this.is = is;
+        this.dis = new DataInputStream(is);
     }
 
     @Override
@@ -23,9 +25,9 @@ class ReaderThread extends Thread {
         byte[] data = new byte[1024];
         try {
             while (true) {
-                int len = is.read(data);
-                if (len == -1) break;
-                String message = new String(data, 0, len);
+                int packetLen = dis.readInt();
+                readn(dis, data, packetLen);
+                String message = new String(data, 0, packetLen);
                 if (onReceived != null) {
                     onReceived.onReceive(message);
                 }
@@ -34,11 +36,21 @@ class ReaderThread extends Thread {
             e.printStackTrace();
         } finally {
             try {
-                is.close();
+                dis.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    public static void readn(DataInputStream is, byte[] data, int size) throws IOException {
+        int left = size;
+        int offset = 0;
+
+        while (left > 0) {
+            int len = is.read(data, offset, left);
+            left -= len;
+            offset += len;
+        }
+    }
 }

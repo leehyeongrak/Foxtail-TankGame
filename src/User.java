@@ -32,24 +32,17 @@ public class User extends RenderObject {
     }
     @Override
     public void update() {
-        String message = "#MOVE#";
-        if (mode == MOVE_LEFT) {
-            message = message + "LEFT";
-            this.x -= speed;
-        } else if (mode == MOVE_RIGHT) {
-            message = message + "RIGHT";
-            this.x += speed;
-        } else if (mode == MOVE_DOWN) {
-            message = message + "DOWN";
-            this.y += speed;
-        } else if (mode == MOVE_UP) {
-            message = message + "UP";
-            this.y -= speed;
-        } else if (mode == STAY) {
-            return;
-        }
-        System.out.println("                   OUT : "+message);
-        //os 이용해서  서버로 보내야함
+//        if (mode == MOVE_LEFT) {
+//            this.x -= speed;
+//        } else if (mode == MOVE_RIGHT) {
+//            this.x += speed;
+//        } else if (mode == MOVE_DOWN) {
+//            this.y += speed;
+//        } else if (mode == MOVE_UP) {
+//            this.y -= speed;
+//        } else if (mode == STAY) {
+//            return;
+//        }
     }
 
     public void setMode(int mode) {
