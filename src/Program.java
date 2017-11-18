@@ -56,19 +56,24 @@ public class Program extends PApplet {
     public void keyPressed(KeyEvent event) {
         keyCode = event.getKeyCode();
         switch (keyCode) {
-//            case 37: {
-//                renderObjects.get(0).setMode(1);
-//                break;
-//            }
-            case 38: {
-                renderObjects.get(0).setMode(51);
+          case 37: {
+                renderObjects.get(0).setMode(61);
                 break;
             }
-//            case 39: {
-//                renderObjects.get(0).setMode(2);
-//                break;
-//            }
+            case 39: {
+                renderObjects.get(0).setMode(62);
+                break;
+            }
+            case 38: {
+                renderObjects.get(0).setMode(63);
+                break;
+            }
+            case 40: {
+                renderObjects.get(0).setMode(64);
+                break;
+            }
         }
+        System.out.println(keyCode);
     }
 
     @Override
