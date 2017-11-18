@@ -6,4 +6,5 @@ public class Constants {
 
     final static int BLOCK_EMPTY = 0;
     final static int BLOCK = 1;
+
 }
