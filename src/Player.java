@@ -10,13 +10,18 @@ public class Player extends RenderObject{
     final static int STAY_UP = 63;
     final static int STAY_DOWN = 64;
 
+    int[][] map = new int[Constants.MAP_COL][Constants.MAP_ROW];
     String id;
     int speed = 2;
     int dir = Constants.DIR_DOWN;
 
-    public Player(PApplet p) {
+    public Player(PApplet p, String id, int[][] map) {
         super(p);
         this.mode = STAY_DOWN;
+        this.id = id;
+        this.x = 60;
+        this.y = 60;
+        this.map = map;
 
         this.allocMode(MOVE_LEFT, "SourceImage", new int[] {
                 8, 7, 6, 5, 4, 3, 2, 1
@@ -49,21 +54,48 @@ public class Player extends RenderObject{
         super.setMode(mode);
     }
 
-    @Override
     public void update(){
         String message = "#MOVE#";
         if (mode == MOVE_LEFT) {
-            message = message + "LEFT";
-            this.x -= speed;
+            if(map[this.y/40][(this.x - Constants.OBJECT_SIZE/2 - 2)/40] == 1 ||
+                    map[(this.y - Constants.OBJECT_SIZE/2 + 2)/40][(this.x - Constants.OBJECT_SIZE/2 - 2)/40] == 1 ||
+                    map[(this.y + Constants.OBJECT_SIZE/2 - 2)/40][(this.x - Constants.OBJECT_SIZE/2 - 2)/40] == 1)
+            {
+                return;
+            } else{
+                message = message + "LEFT";
+                this.x -= speed;
+            }
         } else if (mode == MOVE_RIGHT) {
-            message = message + "RIGHT";
-            this.x += speed;
+            if(map[this.y/40][(this.x + Constants.OBJECT_SIZE/2 + 2)/40] == 1 ||
+                    map[(this.y - Constants.OBJECT_SIZE/2 + 2)/40][(this.x + Constants.OBJECT_SIZE/2 + 2)/40] == 1 ||
+                    map[(this.y + Constants.OBJECT_SIZE/2 - 2)/40][(this.x + Constants.OBJECT_SIZE/2 + 2)/40] == 1)
+            {
+                return;
+            } else {
+                message = message + "RIGHT";
+                this.x += speed;
+            }
         } else if (mode == MOVE_DOWN) {
-            message = message + "DOWN";
-            this.y += speed;
+            if(map[(this.y + Constants.OBJECT_SIZE/2 + 2)/40][this.x/40] == 1 ||
+                    map[(this.y + Constants.OBJECT_SIZE/2 + 2)/40][(this.x - Constants.OBJECT_SIZE/2 + 2)/40] == 1 ||
+                    map[(this.y + Constants.OBJECT_SIZE/2 + 2)/40][(this.x + Constants.OBJECT_SIZE/2 - 2)/40] == 1)
+            {
+                return;
+            } else {
+                message = message + "DOWN";
+                this.y += speed;
+            }
         } else if (mode == MOVE_UP) {
-            message = message + "UP";
-            this.y -= speed;
+            if(map[(this.y - Constants.OBJECT_SIZE/2 - 2)/40][this.x/40] == 1 ||
+                    map[(this.y - Constants.OBJECT_SIZE/2 - 2)/40][(this.x - Constants.OBJECT_SIZE/2 + 2)/40] == 1 ||
+                    map[(this.y - Constants.OBJECT_SIZE/2 - 2)/40][(this.x + Constants.OBJECT_SIZE/2 - 2)/40] == 1)
+            {
+                return;
+            } else {
+                message = message + "UP";
+                this.y -= speed;
+            }
         }
 //        } else if (mode == STAY) {
 //            return;
@@ -76,6 +108,7 @@ public class Player extends RenderObject{
     @Override
     public void render() {
         tick ++;
+        System.out.println(x + ", "+ y );
         switch (mode) {
             case 51:
             case 61:
@@ -112,4 +145,5 @@ public class Player extends RenderObject{
         }
 
     }
+
 }

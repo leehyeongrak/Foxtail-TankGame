@@ -5,6 +5,7 @@ public class Bullet extends RenderObject {
 
     int dir;
     int speed = 160 / 30;
+    int count = 0;
 
     Bullet(PApplet pApplet, int x, int y, int dir) {
         super(pApplet);

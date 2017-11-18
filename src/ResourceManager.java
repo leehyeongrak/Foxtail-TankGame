@@ -15,7 +15,6 @@ public class ResourceManager {
     private static PApplet pApplet;
 
 
-
     // 이미지를 가져 올 수 있어야 한다 -> 리소스 아이디에 따라서
     // 이미지 전체를 불러 올 수 있고 원하는 인덱스를 가져 올 수도 있따.
 

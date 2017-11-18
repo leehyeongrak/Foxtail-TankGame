@@ -10,7 +10,7 @@ public class RenderObject {
     protected PApplet p;
 
     public int x, y;
-
+    public String id;
 
     public RenderObject(PApplet p) {
         renderImages = new HashMap<>();
